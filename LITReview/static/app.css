@@ -1,0 +1,132 @@
+html {
+    font-family: Arial;
+}
+
+.content {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items : center;
+}
+
+/* The sidebar menu */
+.user{
+    display:flex;
+    flex-direction: column;
+    }
+.sidebar {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 15%; /* Full-height: remove this if you want "auto" height */
+    width: 100%; /* Set the width of the sidebar */
+    /*position: fixed;  Fixed Sidebar (stay in place on scroll) */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    left: 0;
+    background-color: #2d3448;
+    color:  #ffffe6;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.menu{
+    display: flex;
+    justify-content:space-between;
+}
+nav p {
+margin:20px;
+}
+
+/* The navigation menu links */
+.sidebar a {
+    display: flex;
+    justify-content: space-around;
+    font-size:0.8em;
+    text-decoration: none;
+    color:  #ffffe6;
+    margin:auto;
+    /*display: block;*/
+}
+h1{font-size:1.3em;}
+
+/* When you mouse over the navigation links, change their color */
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+/* Style page content */
+.main {
+    margin-left: 240px; /* Same as the width of the sidebar */
+    padding: 20px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar {
+    width: 3em;
+    border-radius: 10%;
+    /*display: block;*/
+    margin: auto;
+    /*padding-top: 10px;
+    padding-bottom: 10px;*/
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.post img {
+    width: 80%;
+    border-radius: 5px;
+}
+
+#id_note {
+  display: flex;
+}
+label {
+  width: 90px;
+  display: inline-block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+.in_section{
+    border: 2px  black solid;
+    padding: 10px;
+}
+.ticket_section{
+    display:flex;
+    flex-direction:column;
+}
+.ticket_section label{
+    display:block;
+}
+
+.login{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items : center;
+}
+.login div{
+    margin: 20px;
+    padding: 20px;
+}
+.flux .container{
+    display;flex:
+    flex:column;
+}
+.button_review{
+    display:flex;
+    flex: row;
+    justify-content: space-between;
+}

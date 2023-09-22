@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <title>LITReview</title>
+        <link rel="stylesheet" href="{% static 'app.css' %}"/>
+    </head>
+    <body>
+        <div class="content">
+            <header class="sidebar">
+                <h1><a href="{% url 'flux' %}">LITReview</a></h1>
+                {% if user.is_authenticated %}
+                    <nav class="menu">
+
+                        <p><a href="{% url 'flux' %}">Flux</a></p>
+                        <p><a href="{% url 'posts' %}">Posts</a></p>
+                        <p><a href="{% url 'subscriptions' %}">Abonnements</a></p>
+                        <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+                    </nav>
+                {% endif %}
+            </header>
+            <section class="main">
+                {% block content %}{% endblock content %}
+            </section>
+
+        </div>
+    </body>
+</html>

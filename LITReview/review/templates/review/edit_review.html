@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2>Modifier votre critique</h2>
+    <form method="post">
+        {{ edit_ticket_form.as_p }}
+        <hr>
+        {{ edit_review_form.as_p }}
+        {% csrf_token %}
+        <button type="submit" >Sauvegarder</button>
+    </form>
+   <!-- <hr>
+<br>
+<hr>
+    <h3>Supprimer le billet ?</h3>
+    <form method="post">
+        {{ delete_form }}
+        {% csrf_token %}
+        <button type="submit" >Supprimer</button>
+    </form>-->
+{% endblock content %}

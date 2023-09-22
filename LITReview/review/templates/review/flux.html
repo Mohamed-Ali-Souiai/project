@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <!--<h2>Photos</h2>
+    {% for photo in photos %}
+        <img src="{{ photo.image.url }}">
+        <p>{{ photo.caption }}</p>
+    {% endfor %}-->
+    <h2>Flux</h2>
+    <div class="container">
+        <div class="button_review">
+            <p><a href=""><input type="button" value="demander une critique "></a></p>
+            <p><a href="{% url 'create_review' %}"><input type="button" value="créer une critique "></a></p>
+        </div>
+        <div class="flux">
+            {% for review in reviews %}
+                        <p>vous avez publie une critique {{ review.time_created }}</p>
+                        <h2>ticket : {{ review.title }}</h2>
+                        <!--<img src="{{ ticket.image }}">-->
+
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

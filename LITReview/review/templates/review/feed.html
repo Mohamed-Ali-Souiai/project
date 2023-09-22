@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div >
+  <div >
+    <h1 >
+      {% if posts %}
+        {{ title }}
+      {% endif %}
+    </h1>
+    <div class="" role="group">
+      <a type="button" href="{% url 'create_ticket' %}">Écrire un ticket</a>
+      <a type="button" href="{% url 'create_review' %}">créer une critique</a>
+    </div>
+  </div>
+</div>
+{% for post in posts %}
+
+    {% if post.content_type == 'REVIEW' %}
+      {% include 'review/review_snippet.html' %}
+    {% elif post.content_type == 'TICKET' %}
+      {% include 'review/ticket_snippet.html' %}
+    {% endif %}
+
+{% endfor %}
+
+
+<!-- No posts to display -->
+<div >
+  <div >
+    <p>Aucun message à afficher</p>
+    {% if request.get_full_path == "/" %}
+      <p >
+        <a href="{% url 'create_review' %}">créer une critique</a>
+      </p>
+    {% else %}
+      <p>
+        Donnez votre <a href="{% url 'create_review' %}">avis </a>.
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+
+
+{% endblock content %}
