@@ -23,18 +23,24 @@ urlpatterns = [
     path('logout/', authentication.views.logout_user, name='logout'),
     path('signup/', authentication.views.SignupPage.as_view(), name='signup'),
     path('flux/', review.views.feed, name='flux'),
-    path('posts/', review.views.my_posts, name='posts'),
-    path('LITReview/<int:ticket_id>/<int:review_id>/edit_review', review.views.EditReview.as_view(), name='edit_review'),
-    path('LITReview/<int:ticket_id>/edit_ticket', review.views.EditTicket.as_view(), name='edit_ticket'),
-    path('LITReview/post', review.views.view_post, name='view_post'),
-    path('LITReview/follow_users', review.views.FollowUsers.as_view(), name='follow-users'),
+    path('LITReview/subscriptions', review.views.subscriptions, name='subscriptions'),
     path('LITReview/create_ticket', review.views.CreateTicket.as_view(), name='create_ticket'),
     path('LITReview/create_review', review.views.CreateReview.as_view(), name='create_review'),
+    path('review/response/<int:review_id>', review.views.review_detail, name='response_review'),  # à faire
+    path('posts/', review.views.my_posts, name='posts'),
+    path(
+        'LITReview/<int:ticket_id>/<int:review_id>/edit_review',
+        review.views.EditReview.as_view(), name='edit_review'
+         ),
+    path('LITReview/<int:ticket_id>/edit_ticket', review.views.EditTicket.as_view(), name='edit_ticket'),
     path('LITReview/<int:ticket_id>/create_ticket_review',
          review.views.CreateTicketReview.as_view(),
          name='create_ticket_review'),
-    path('LITReview/subscriptions', review.views.subscriptions, name='subscriptions'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#    path('LITReview/post', review.views.view_post, name='view_post'),
+#    path('LITReview/follow_users', review.views.FollowUsers.as_view(), name='follow-users'),
+

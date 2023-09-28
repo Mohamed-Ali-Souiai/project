@@ -9,7 +9,7 @@
       {% if post.user != user %}
 
         {% if post.user in followed_users %}
-          <a class="mr-2 mb-0" href="{% url 'user-posts' post.user.id %}">{{ post.user }}</a>
+          <a class="mr-2 mb-0" href="{% url 'posts'%}">{{ post.user }}</a>
         {% else %}
           <p class="mr-2 mb-0" style="display:inline">{{ post.user }}</p>
         {% endif %}
@@ -43,7 +43,7 @@
         <div class="article-metadata">
           {% if post.ticket.user != user %}
             {% if post.ticket.user in followed_users %}
-              <a class="mr-2 mb-0" href="{% url 'user-posts' post.ticket.user.id %}">{{ post.ticket.user }}</a>
+              <a class="mr-2 mb-0" href="{% url 'posts' %}">{{ post.ticket.user }}</a>
             {% else %}
               <p class="mr-2 mb-0" style="display:inline">{{ post.ticket.user }}</p>
             {% endif %}

@@ -1,16 +1,18 @@
-from django.contrib.auth.models import User
+from pprint import pprint
 
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from review.models import Review, Ticket
 from authentication.models import User, UserFollows
 
 
-def get_user_follows():
+def get_user_follows(user):
     """Returns list of users followed by current user"""
-    follows = User.objects.filter(username=UserFollows.user)
+    follows = UserFollows.objects.filter(user=user)
     followed_users = []
     for follow in follows:
-        followed_users.append(follow.followed_by)
-
+        followed_users.append(follow.followed_user)
+    followed_users.append(user)
     return followed_users
 
 
@@ -23,8 +25,7 @@ def get_user_viewable_reviews(user):
     @param user: currently logged-in User instance
     @return: filtered reviews queryset with no duplicate results
     """
-    followed_users = get_user_follows()
-    # followed_users.append(user)
+    followed_users = get_user_follows(user)
 
     reviews = []
     all_reviews = Review.objects.filter(user__in=followed_users)  # .distinct()
@@ -42,23 +43,13 @@ def get_user_viewable_reviews(user):
     return reviews
 
 
-def get_user_viewable_tickets(user: User):
-    """
-    All viewable tickets for user feed:
-    Tickets by followed users + current user
-    Filter out tickets with review response if review author is followed
-
-    @param user: currently logged-in User instance
-    @return: filtered tickets queryset
-    """
-    followed_users = get_user_follows()
-    followed_users.append(user)
-
-    tickets = Ticket.objects.filter(user__in=followed_users)
-    for ticket in tickets:
-        replied = Review.objects.get(ticket=ticket)
-        if replied and replied.user in followed_users:
-            tickets = tickets.exclude(id=ticket.id)
+def get_user_viewable_tickets(user):
+    followed_users = get_user_follows(user)
+    tickets = []
+    for user in followed_users:
+        tickets_by_user = Ticket.objects.filter(user=user)
+        for ticket in tickets_by_user:
+            tickets.append(ticket)
     return tickets
 
 
