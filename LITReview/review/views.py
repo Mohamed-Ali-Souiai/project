@@ -57,12 +57,9 @@ def feed(request):
     followed_users = get_user_follows(request.user)
 
     reviews = get_user_viewable_reviews(request.user)
-    print(reviews)
-    print('_______________________________________')
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
 
     tickets = get_user_viewable_tickets(request.user)
-    print(tickets)
     #tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
 
     replied_tickets, replied_reviews = get_replied_tickets(tickets)
@@ -87,7 +84,9 @@ def feed(request):
     return render(request, 'review/feed.html', context)
 
 
-class CreateTicket(View, LoginRequiredMixin):
+class CreateTicket(LoginRequiredMixin, View):
+    login_url = "/login/"  # LoginRequiredMixin
+    redirect_field_name = "feed"  # LoginRequiredMixin
     form_ticket_class = forms.TicketForm
     template_name = 'review/create_ticket.html'
 
@@ -107,7 +106,9 @@ class CreateTicket(View, LoginRequiredMixin):
         return render(request, self.template_name, context=context)
 
 
-class CreateReview(View, LoginRequiredMixin):
+class CreateReview(LoginRequiredMixin, View):
+    login_url = "/login/"  # LoginRequiredMixin
+    redirect_field_name = "feed"  # LoginRequiredMixin
     form_ticket_class = forms.TicketForm
     form_review_class = forms.ReviewForm
     template_name = 'review/create_review.html'
@@ -178,7 +179,9 @@ def review_detail(request, review_id):
     return render(request, 'review/post_detail.html', context)
 
 
-class EditTicket(View, LoginRequiredMixin):
+class EditTicket(LoginRequiredMixin, View):
+    login_url = "/login/"  # LoginRequiredMixin
+    redirect_field_name = "feed"  # LoginRequiredMixin
     form_edit_class = forms.TicketForm
     form_delete_class = forms.DeleteTicketForm
     template_name = 'blog/edit_ticket.html'
@@ -215,40 +218,41 @@ class EditTicket(View, LoginRequiredMixin):
         return render(request, self.template_name, context=context)
 
 
-class EditReview(View, LoginRequiredMixin):
-    form_ticket_class = forms.TicketForm
+class EditReview(LoginRequiredMixin, View):
+    login_url = "/login/"  # LoginRequiredMixin
+    redirect_field_name = "feed"  # LoginRequiredMixin
     form_review_class = forms.ReviewForm
+    form_delete_class = forms.DeleteReviewForm
     template_name = 'blog/edit_review.html'
 
     def get(self, request, ticket_id, review_id):
-        ticket = get_object_or_404(models.Ticket, id=ticket_id)
         review = get_object_or_404(models.Review, id=review_id)
-        edit_ticket_form = self.form_ticket_class(instance=ticket)
         edit_review_form = self.form_review_class(instance=review)
-        # delete_form = self.form_delete_class()
+        delete_form = self.form_delete_class()
         context = {
             'edit_review_form': edit_review_form,
-            'edit_ticket_form': edit_ticket_form,
+            'delete_form': delete_form,
         }
         return render(request, self.template_name, context=context)
 
     def post(self, request, ticket_id, review_id):
-        ticket = get_object_or_404(models.Ticket, id=ticket_id)
         review = get_object_or_404(models.Review, id=review_id)
-        edit_ticket_form = self.form_ticket_class(instance=ticket)
         edit_review_form = self.form_review_class(instance=review)
-        # edit_form = self.form_edit_class(instance=review)
-        # delete_form = self.form_delete_class()
+        delete_form = self.form_delete_class()
 
-        if 'edit_blog' in request.POST:
-            edit_ticket_form = self.form_ticket_class(request.POST, instance=ticket)
+        if 'edit_review' in request.POST:
             edit_review_form = self.form_review_class(request.POST, instance=review)
             if edit_review_form.is_valid():
                 edit_review_form.save()
                 return redirect('flux')
+        if 'delete_review' in request.POST:
+            delete_form = self.form_delete_class(request.POST)
+            if delete_form.is_valid():
+                review.delete()
+                return redirect('home')
         context = {
-            'edit_ticket_form': edit_ticket_form,
             'edit_review_form': edit_review_form,
+            'delete_form': delete_form,
         }
         return render(request, self.template_name, context=context)
 
