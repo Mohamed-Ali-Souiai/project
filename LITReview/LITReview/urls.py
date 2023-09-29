@@ -24,6 +24,7 @@ urlpatterns = [
     path('signup/', authentication.views.SignupPage.as_view(), name='signup'),
     path('flux/', review.views.feed, name='flux'),
     path('LITReview/subscriptions', review.views.subscriptions, name='subscriptions'),
+    path('subscriptions/unsub/<int:id>/', review.views.unsubscribe, name='unsub'),
     path('LITReview/create_ticket', review.views.CreateTicket.as_view(), name='create_ticket'),
     path('LITReview/create_review', review.views.CreateReview.as_view(), name='create_review'),
     path('review/response/<int:review_id>', review.views.review_detail, name='response_review'),  # à faire

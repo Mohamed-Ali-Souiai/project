@@ -8,12 +8,37 @@
     </form>
     <h2>Abonnements</h2>
     {% for user_follow in subscription %}
-        <p>{{ user_follow.followed_user.last_name }}</p>
+        <p>{{ user_follow.followed_user.username }}</p>
         <form method="post" action="">
             {% csrf_token %}
             <input type="submit" value="desabonné">
         </form>
     {% endfor %}
+
+
+
+<div class="col">
+      <h4 class="mb-3">Followed users ({{ subscription.count }})</h4>
+      {% if subscription %}
+        <div class="">
+          <ul class="">
+            {% for follow in subscription %}
+              <li class="">
+                <p class="">
+                  {{ follow.followed_user.username }}
+                  <a class="" href="{% url 'unsub' follow.id %}">
+                    Unsubscribe
+                  </a>
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endif %}
+
+
+
+
 
     <h2>Abonné</h2>
     {% for user_follow in subscriber %}
@@ -22,8 +47,10 @@
     {% endfor %}
 
     <form>
-        {{subscription.as_p}}
+        {{subscriber.as_p}}
 
     </form>
 
 {% endblock %}
+
+

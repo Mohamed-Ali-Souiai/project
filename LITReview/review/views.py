@@ -284,9 +284,10 @@ def subscriptions(request):
 
 
 @login_required
-def unsubscribe(request, link_id):
-    link = UserFollows.objects.get(id=link_id)
+def unsubscribe(request, follow_id):
+    link = UserFollows.objects.get(id=follow_id)
     link.delete()
+
     return redirect('subscriptions')
 
 

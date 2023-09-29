@@ -39,6 +39,7 @@ def get_user_viewable_reviews(user):
             reviews.append(review.id)
 
     reviews = Review.objects.filter(id__in=reviews).distinct()
+    print(reviews)
 
     return reviews
 
